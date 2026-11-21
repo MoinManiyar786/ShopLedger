@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="780" viewBox="0 0 1200 780" role="img" aria-labelledby="title description">
+  <title id="title">ShopLedger architecture and order placement</title>
+  <desc id="description">Browser screens call Express routes and a printable invoice page. Checkout, invoice and GST audit share pricing rules. Order placement writes through the JSON store.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0 0 L8 4 L0 8 Z" fill="#708397"/>
+    </marker>
+    <style>
+      text { font-family: system-ui, sans-serif; fill: #172b3c; }
+      .title { font-size: 34px; font-weight: 750; }
+      .heading { font-size: 19px; font-weight: 720; }
+      .body { font-size: 15px; fill: #3c5266; }
+      .label { font-size: 14px; font-weight: 700; fill: #1c755a; }
+      .mono { font-family: ui-monospace, monospace; font-size: 14px; fill: #27445c; }
+      .card { fill: #fff; stroke: #cbd8e3; }
+      .ticket { fill: #e7f7ef; stroke: #299574; stroke-width: 1.7; }
+      .arrow { fill: none; stroke: #708397; stroke-width: 1.7; marker-end: url(#arrow); }
+    </style>
+  </defs>
+  <rect width="1200" height="780" fill="#f3f7fa"/>
+  <text x="40" y="59" class="title">ShopLedger architecture</text>
+  <text x="40" y="88" class="body">Point of sale, inventory, Khata credit, and GST invoicing</text>
+  <rect x="911" y="42" width="249" height="34" rx="17" class="ticket"/>
+  <text x="929" y="64" class="label">Ticket 1 · invoice and GST rules</text>
+
+  <g aria-label="Browser">
+    <rect x="40" y="120" width="305" height="150" rx="13" class="card"/>
+    <text x="60" y="153" class="heading">Browser UI</text>
+    <text x="60" y="177" class="mono">public/index.html</text>
+    <text x="60" y="197" class="mono">public/js/app.js</text>
+    <text x="60" y="225" class="body">New Order · Order History</text>
+    <text x="60" y="249" class="body">Customer Khata · Inventory &amp; GST Audit</text>
+  </g>
+  <path d="M345 195 H394" class="arrow"/>
+  <g aria-label="HTTP routes">
+    <rect x="402" y="120" width="334" height="150" rx="13" class="card"/>
+    <text x="422" y="153" class="heading">Express · server.js</text>
+    <text x="422" y="180" class="mono">routes/{products,orders,</text>
+    <text x="422" y="202" class="mono">  customers,reports}.js → /api</text>
+    <text x="422" y="240" class="mono">GET /orders/:id/invoice</text>
+  </g>
+  <path d="M736 195 H780" class="arrow"/>
+  <g aria-label="Business rules">
+    <rect x="788" y="120" width="372" height="150" rx="13" class="card"/>
+    <text x="808" y="153" class="heading">Business rules · lib/</text>
+    <text x="808" y="180" class="mono">orders.js · dates.js · inventory.js</text>
+    <text x="808" y="203" class="mono">ledger.js · reports.js</text>
+    <text x="808" y="238" class="body">Orders, stock, credit, and reporting</text>
+  </g>
+
+  <path d="M550 270 V303" class="arrow"/>
+  <g aria-label="Persistent storage">
+    <rect x="40" y="311" width="696" height="127" rx="13" class="card"/>
+    <text x="60" y="344" class="heading">Persistent storage</text>
+    <text x="60" y="372" class="mono">lib/store.js → data/db.json</text>
+    <text x="60" y="407" class="body">Products, orders, customers, settlements, and audit entries</text>
+  </g>
+  <path d="M974 270 V303" class="arrow"/>
+  <g aria-label="Invoice and pricing">
+    <rect x="788" y="311" width="372" height="127" rx="13" class="ticket"/>
+    <text x="808" y="344" class="heading">Invoice and checkout totals</text>
+    <text x="808" y="371" class="mono">invoice.js · pricing.js</text>
+    <text x="808" y="394" class="mono">tax.js · coupons.js · config.js</text>
+    <text x="808" y="418" class="body">HSN rates, coupon rules, and invoice figures</text>
+  </g>
+
+  <text x="40" y="493" class="heading">Order placement · POST /api/orders</text>
+  <g aria-label="Order placement steps">
+    <rect x="40" y="517" width="352" height="92" rx="11" class="card"/>
+    <text x="60" y="546" class="label">1 · Send cart</text>
+    <text x="60" y="574" class="body">Browser sends product IDs, quantities,</text>
+    <text x="60" y="595" class="body">coupon, and payment details.</text>
+    <path d="M392 563 H415" class="arrow"/>
+    <rect x="423" y="517" width="352" height="92" rx="11" class="card"/>
+    <text x="443" y="546" class="label">2 · Resolve and validate</text>
+    <text x="443" y="574" class="body">Route loads products and checks</text>
+    <text x="443" y="595" class="body">sellable stock and coupon eligibility.</text>
+    <path d="M775 563 H798" class="arrow"/>
+    <rect x="806" y="517" width="354" height="92" rx="11" class="ticket"/>
+    <text x="826" y="546" class="label">3 · Price the order</text>
+    <text x="826" y="574" class="body">Pricing applies the discount and</text>
+    <text x="826" y="595" class="body">calculates GST for each item.</text>
+    <path d="M983 609 V637" class="arrow"/>
+    <rect x="806" y="645" width="354" height="92" rx="11" class="card"/>
+    <text x="826" y="674" class="label">4 · Apply stock and credit changes</text>
+    <text x="826" y="702" class="body">Charge Khata if selected, then</text>
+    <text x="826" y="723" class="body">deduct stock and append the order.</text>
+    <path d="M806 691 H783" class="arrow"/>
+    <rect x="423" y="645" width="352" height="92" rx="11" class="card"/>
+    <text x="443" y="674" class="label">5 · Save and respond</text>
+    <text x="443" y="702" class="body">Add an audit entry, write the JSON</text>
+    <text x="443" y="723" class="body">file, and return HTTP 201.</text>
+    <path d="M423 691 H400" class="arrow"/>
+    <rect x="40" y="645" width="352" height="92" rx="11" class="card"/>
+    <text x="60" y="674" class="label">6 · Open the invoice</text>
+    <text x="60" y="702" class="body">The invoice route loads the stored</text>
+    <text x="60" y="723" class="body">order and returns printable HTML.</text>
+  </g>
+</svg>
